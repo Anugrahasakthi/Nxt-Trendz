@@ -19,23 +19,29 @@ class App extends Component {
 
   addCartItem = product => {
     this.setState(prevState => {
-      const itemExists = prevState.cartList.find(item => item.id === product.id)
-      if (itemExists) {
+      const isProductAlreadyExists = prevState.cartList.find(
+        ele => ele.id === product.id,
+      )
+
+      if (isProductAlreadyExists) {
         return {
           cartList: prevState.cartList.map(item =>
             item.id === product.id
-              ? {...item, quantity: item.quantity + 1} // Increment by 1
+              ? {...item, quantity: item.quantity + product.quantity}
               : item,
           ),
         }
       }
-      return {cartList: [...prevState.cartList, {...product, quantity: 1}]} // Add with initial quantity of 1
+
+      return {
+        cartList: [...prevState.cartList, product],
+      }
     })
   }
 
-  removeCartItem = id => {
+  removeCartItem = productId => {
     this.setState(prevState => ({
-      cartList: prevState.cartList.filter(item => item.id !== id),
+      cartList: prevState.cartList.filter(item => item.id !== productId),
     }))
   }
 
@@ -43,23 +49,21 @@ class App extends Component {
     this.setState({cartList: []})
   }
 
-  incrementCartItemQuantity = id => {
+  incrementCartItemQuantity = productId => {
     this.setState(prevState => ({
       cartList: prevState.cartList.map(item =>
-        item.id === id ? {...item, quantity: item.quantity + 1} : item,
+        item.id === productId ? {...item, quantity: item.quantity + 1} : item,
       ),
     }))
   }
 
-  decrementCartItemQuantity = id => {
+  decrementCartItemQuantity = productId => {
     this.setState(prevState => ({
       cartList: prevState.cartList
         .map(item =>
-          item.id === id && item.quantity > 1
-            ? {...item, quantity: item.quantity - 1}
-            : item,
+          item.id === productId ? {...item, quantity: item.quantity - 1} : item,
         )
-        .filter(item => item.quantity > 0), // Remove items with zero quantity
+        .filter(item => item.quantity >= 1),
     }))
   }
 

@@ -16,12 +16,12 @@ const Header = props => {
     <CartContext.Consumer>
       {value => {
         const {cartList} = value
-        const uniqueProductsCount = new Set(cartList.map(item => item.id)).size
+        const cartItemsCount = cartList.length
 
         return (
           <>
-            {uniqueProductsCount > 0 ? (
-              <span className="cart-count-badge">{uniqueProductsCount}</span>
+            {cartItemsCount > 0 ? (
+              <span className="cart-count-badge">{cartList.length}</span>
             ) : null}
           </>
         )

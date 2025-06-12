@@ -15,10 +15,17 @@ const CartItem = props => (
       } = value
       const {cartItemDetails} = props
       const {id, title, brand, quantity, price, imageUrl} = cartItemDetails
+      const onRemoveCartItem = () => {
+        removeCartItem(id)
+      }
 
-      const onRemoveCartItem = () => removeCartItem(id)
-      const onIncrement = () => incrementCartItemQuantity(id)
-      const onDecrement = () => decrementCartItemQuantity(id)
+      const onIncrementCartItemQty = () => {
+        incrementCartItemQuantity(id)
+      }
+
+      const onDecrementCartItemQty = () => {
+        decrementCartItemQuantity(id)
+      }
 
       return (
         <li className="cart-item">
@@ -32,19 +39,19 @@ const CartItem = props => (
               <button
                 type="button"
                 className="quantity-controller-button"
+                aria-label="Mute volume"
+                onClick={onDecrementCartItemQty}
                 data-testid="minus"
-                onClick={onDecrement}
               >
                 <BsDashSquare color="#52606D" size={12} />
               </button>
-              <p className="cart-quantity" data-testid="item-quantity">
-                {quantity}
-              </p>
+              <p className="cart-quantity">{quantity}</p>
               <button
                 type="button"
                 className="quantity-controller-button"
+                aria-label="Mute volume"
+                onClick={onIncrementCartItemQty}
                 data-testid="plus"
-                onClick={onIncrement}
               >
                 <BsPlusSquare color="#52606D" size={12} />
               </button>
@@ -55,7 +62,6 @@ const CartItem = props => (
                 className="remove-button"
                 type="button"
                 onClick={onRemoveCartItem}
-                data-testid="remove"
               >
                 Remove
               </button>
@@ -64,7 +70,9 @@ const CartItem = props => (
           <button
             className="delete-button"
             type="button"
+            aria-label="Mute volume" // Check this
             onClick={onRemoveCartItem}
+            data-testid="remove"
           >
             <AiFillCloseCircle color="#616E7C" size={20} />
           </button>
